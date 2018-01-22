@@ -1,14 +1,24 @@
-package com.example.store.item
+package com.example.store
 
-import groovy.util.logging.Slf4j
+import com.example.store.item.Item
+import com.example.store.item.ItemRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.ApplicationRunner
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
+import org.springframework.test.context.ActiveProfiles
+import spock.lang.Specification
 
-@Slf4j
+@AutoConfigureTestDatabase
+@ActiveProfiles("test")
+//@Import(SpecBaseConfig)
+class SpecBase extends Specification {
+}
+
 @TestConfiguration
-class ItemTestConfig {
+class SpecBaseConfig {
 
     @Autowired
     ItemRepository items

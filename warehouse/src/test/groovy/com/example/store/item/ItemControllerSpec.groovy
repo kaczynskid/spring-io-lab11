@@ -1,23 +1,21 @@
 package com.example.store.item
 
-import com.example.store.WarehouseApplication
+import com.example.store.SpecBase
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
-import spock.lang.Specification
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@SpringBootTest(classes = [WarehouseApplication, ItemTestConfig],
-        webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureJson
-class ItemControllerSpec extends Specification {
+class ItemControllerSpec extends SpecBase {
 
     @Autowired MockMvc mvc
 

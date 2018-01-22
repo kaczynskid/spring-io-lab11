@@ -1,13 +1,11 @@
 package com.example.store.item
 
+import com.example.store.SpecBase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.context.annotation.Import
-import spock.lang.Specification
 
 @DataJpaTest
-@Import(ItemTestConfig)
-class ItemRepositorySpec extends Specification {
+class ItemRepositorySpec extends SpecBase {
 
     @Autowired
     ItemRepository items
