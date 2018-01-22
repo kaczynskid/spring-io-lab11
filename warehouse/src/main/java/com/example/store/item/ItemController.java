@@ -1,6 +1,9 @@
 package com.example.store.item;
 
+import com.example.store.ErrorMessage;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.example.store.ErrorMessage.messageResponseOf;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
 @RequestMapping("/items")
@@ -46,5 +51,8 @@ class ItemController {
         return ItemRepresentation.of(items.updateStock(changes.withId(id)));
     }
 
-
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handle(OutOfStock e) {
+        return messageResponseOf(BAD_REQUEST, e.getMessage());
+    }
 }
