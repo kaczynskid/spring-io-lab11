@@ -45,4 +45,6 @@ class ItemController {
     public ItemRepresentation updateStock(@PathVariable("id") long id, @RequestBody ItemStockUpdate changes) {
         return ItemRepresentation.of(items.updateStock(changes.withId(id)));
     }
+
+
 }

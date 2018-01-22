@@ -3,9 +3,11 @@ package com.example.store.item;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class ItemService {
 
 	private final ItemRepository items;
@@ -18,7 +20,7 @@ public class ItemService {
 		return items.findAll();
 	}
 
-	public Item findOne(Long id) {
+	public Item findOne(long id) {
 		return items.getOne(id);
 	}
 

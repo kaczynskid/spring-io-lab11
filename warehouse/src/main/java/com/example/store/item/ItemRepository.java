@@ -1,12 +1,15 @@
 package com.example.store.item;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 
-interface ItemRepository {
+interface ItemRepository extends JpaRepository<Item, Long> {
 
-	List<Item> findAll();
+    Item findTopByOrderByPriceDesc();
 
-	Item getOne(Long id);
-
-	Item save(Item item);
+    @Query("from Item where name like :prefix%")
+    List<Item> findByNamePrefix(@Param("prefix") String namePrefix);
 }
