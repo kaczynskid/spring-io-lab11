@@ -1,5 +1,7 @@
 package com.example.store.item;
 
+import lombok.AllArgsConstructor;
+import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -8,13 +10,12 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class ItemService {
 
 	private final ItemRepository items;
 
-	public ItemService(ItemRepository items) {
-		this.items = items;
-	}
+	private final CounterService conuters;
 
 	public List<Item> findAll() {
 		return items.findAll();
@@ -41,6 +42,9 @@ public class ItemService {
 
 		Item item = findOne(changes.getId());
 		item.updateStock(changes);
+
+		conuters.increment("item." + item.getId() + ".update");
+
 		return items.save(item);
 	}
 }
