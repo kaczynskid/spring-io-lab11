@@ -1,11 +1,11 @@
 package com.example.store.item
 
-import com.example.store.StoreApplication
+import com.example.store.WarehouseApplication
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
-@SpringBootTest(classes = [StoreApplication, ItemTestConfig],
+@SpringBootTest(classes = [WarehouseApplication, ItemTestConfig],
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ItemServiceSpec extends Specification {
 

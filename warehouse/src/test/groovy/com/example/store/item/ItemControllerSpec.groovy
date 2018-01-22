@@ -1,6 +1,6 @@
 package com.example.store.item
 
-import com.example.store.StoreApplication
+import com.example.store.WarehouseApplication
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson
@@ -13,7 +13,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@SpringBootTest(classes = [StoreApplication, ItemTestConfig],
+@SpringBootTest(classes = [WarehouseApplication, ItemTestConfig],
         webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @AutoConfigureJson
