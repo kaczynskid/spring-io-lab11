@@ -1,11 +1,13 @@
 package com.example.store;
 
 import com.example.store.item.ItemRepresentation;
+import com.example.store.item.ItemsClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Configuration
+@EnableFeignClients
 @ConditionalOnProperty(name = "eureka.client.enabled", havingValue = "true", matchIfMissing = true)
 public class DiscoveryExample {
 
@@ -68,6 +71,22 @@ public class DiscoveryExample {
                     log.info("  {}", item);
                 });
             }
+
+            log.info("------------------------------");
+        };
+    }
+
+    @Bean
+    public ApplicationRunner feignTemplateDemo(ItemsClient client) {
+        return args -> {
+            List<ItemRepresentation> items = client.findAll();
+
+            log.info("------------------------------");
+            log.info("@FeignClient Example");
+
+            items.forEach(item -> {
+                log.info("  {}", item);
+            });
 
             log.info("------------------------------");
         };
