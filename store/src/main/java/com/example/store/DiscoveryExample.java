@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @Configuration
-@ConditionalOnProperty(name = "spring.cloud.config.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "eureka.client.enabled", havingValue = "true", matchIfMissing = true)
 public class DiscoveryExample {
 
     @Bean
