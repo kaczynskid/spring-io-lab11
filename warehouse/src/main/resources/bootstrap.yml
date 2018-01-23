@@ -1,0 +1,11 @@
+info:
+  my-info: ABC
+
+spring:
+  application:
+    name: warehouse
+  cloud:
+    config:
+      uri: http://localhost:9000
+      fail-fast: true
+      
