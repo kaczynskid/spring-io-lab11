@@ -7,7 +7,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
@@ -19,8 +18,7 @@ import java.util.List;
 
 @Slf4j
 @Configuration
-@EnableFeignClients
-@ConditionalOnProperty(name = "eureka.client.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "spring.cloud.discovery.enabled", havingValue = "true", matchIfMissing = true)
 public class DiscoveryExample {
 
     @Bean
@@ -53,42 +51,50 @@ public class DiscoveryExample {
     @Bean
     public ApplicationRunner restTemplateDemo(RestTemplate rest) {
         return args -> {
-            ParameterizedTypeReference<List<ItemRepresentation>> responseType =
-                    new ParameterizedTypeReference<List<ItemRepresentation>>() {};
+            try {
+                ParameterizedTypeReference<List<ItemRepresentation>> responseType =
+                        new ParameterizedTypeReference<List<ItemRepresentation>>() {};
 
-            ResponseEntity<List<ItemRepresentation>> response = rest.exchange(
-                    "http://warehouse/items",
-                    HttpMethod.GET,
-                    null,
-                    responseType);
+                ResponseEntity<List<ItemRepresentation>> response = rest.exchange(
+                        "http://warehouse/items",
+                        HttpMethod.GET,
+                        null,
+                        responseType);
 
-            log.info("------------------------------");
-            log.info("RestTemplate Example");
+                log.info("------------------------------");
+                log.info("RestTemplate Example");
 
-            log.info("Status: {}", response.getStatusCode());
-            if (response.getStatusCode().is2xxSuccessful()) {
-                response.getBody().forEach(item -> {
-                    log.info("  {}", item);
-                });
+                log.info("Status: {}", response.getStatusCode());
+                if (response.getStatusCode().is2xxSuccessful()) {
+                    response.getBody().forEach(item -> {
+                        log.info("  {}", item);
+                    });
+                }
+
+                log.info("------------------------------");
+            } catch (Exception e) {
+                log.error("RestTemplate Example Error!", e);
             }
-
-            log.info("------------------------------");
         };
     }
 
     @Bean
     public ApplicationRunner feignTemplateDemo(ItemsClient client) {
         return args -> {
-            List<ItemRepresentation> items = client.findAll();
+            try {
+                List<ItemRepresentation> items = client.findAll();
 
-            log.info("------------------------------");
-            log.info("@FeignClient Example");
+                log.info("------------------------------");
+                log.info("@FeignClient Example");
 
-            items.forEach(item -> {
-                log.info("  {}", item);
-            });
+                items.forEach(item -> {
+                    log.info("  {}", item);
+                });
 
-            log.info("------------------------------");
+                log.info("------------------------------");
+            } catch (Exception e) {
+                log.error("@FeignTemplate Example Error!", e);
+            }
         };
     }
 }

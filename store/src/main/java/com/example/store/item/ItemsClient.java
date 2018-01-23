@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient("warehouse/items")
+@FeignClient(name = "warehouse", fallback = ItemsFallback.class)
 public interface ItemsClient {
 
-    @GetMapping
+    @GetMapping("/items")
     List<ItemRepresentation> findAll();
 
-    @GetMapping("/{id}")
+    @GetMapping("/items/{id}")
     ItemRepresentation findOne(@PathVariable("id") long id);
 }

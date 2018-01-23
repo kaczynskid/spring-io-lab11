@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+ribbon:
+  eureka:
+    enabled: false
+
+graphite:
+  enabled: false
