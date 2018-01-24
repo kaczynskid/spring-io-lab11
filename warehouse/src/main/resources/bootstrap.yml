@@ -2,6 +2,8 @@ info:
   my-info: ABC
 
 spring:
+#  profiles:
+#    active: "h2"
   application:
     name: warehouse
   cloud:

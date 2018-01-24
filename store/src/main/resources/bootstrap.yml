@@ -1,4 +1,6 @@
 spring:
+#  profiles:
+#    active: "h2"
   application:
     name: "store"
   cloud:
