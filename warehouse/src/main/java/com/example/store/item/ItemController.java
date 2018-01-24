@@ -2,6 +2,7 @@ package com.example.store.item;
 
 import com.example.store.ErrorMessage;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import static com.example.store.ErrorMessage.messageResponseOf;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
+@Slf4j
 @RestController
 @RequestMapping("/items")
 @AllArgsConstructor
@@ -27,7 +29,9 @@ class ItemController {
 
     @GetMapping
     List<ItemRepresentation> findAll() {
-        return items.findAll().stream().map(ItemRepresentation::of).collect(toList());
+        List<Item> list = items.findAll();
+        log.info("Found {} items.", list.size());
+        return list.stream().map(ItemRepresentation::of).collect(toList());
     }
 
     @PostMapping
@@ -37,8 +41,9 @@ class ItemController {
 
     @GetMapping("/{id}")
     public ItemRepresentation findOne(@PathVariable("id") long id) {
-        ItemRepresentation item = ItemRepresentation.of(items.findOne(id));
-        return item;
+        Item item = items.findOne(id);
+        log.info("Found item {}.", item.getName());
+        return ItemRepresentation.of(item);
     }
 
     @PutMapping("/{id}")

@@ -1,7 +1,9 @@
 package com.example.store.basket;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/baskets")
 public class BasketController {
@@ -14,7 +16,9 @@ public class BasketController {
 
 	@PostMapping
 	public BasketRepresentation create() {
-		return BasketRepresentation.of(baskets.create());
+		Basket basket = baskets.create();
+		log.info("Created basket {}", basket.getId());
+		return BasketRepresentation.of(basket);
 	}
 
 	@GetMapping("/{id}")
