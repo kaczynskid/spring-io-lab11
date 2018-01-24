@@ -3,6 +3,7 @@ package com.example.store.item;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class ItemsFallback implements ItemsClient {
 
     @Override
     public List<ItemRepresentation> findAll() {
-        return Collections.emptyList();
+        return Collections.singletonList(findOne(0));
     }
 
     @Override
