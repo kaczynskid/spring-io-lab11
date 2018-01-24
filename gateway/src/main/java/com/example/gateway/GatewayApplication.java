@@ -3,6 +3,7 @@ package com.example.gateway;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 @SpringBootApplication
+@EnableCircuitBreaker
 @EnableZuulProxy
 public class GatewayApplication {
 
