@@ -9,7 +9,3 @@ spring:
 warehouse:
   ribbon:
     PoolMaxThreads: 5
-
-feign:
-  hystrix:
-    enabled: true
