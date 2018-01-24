@@ -1,9 +1,10 @@
 package com.example.gateway;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.cloud.netflix.zuul.filters.route.ZuulFallbackProvider;
+import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +12,6 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 @SpringBootApplication
@@ -23,8 +23,9 @@ public class GatewayApplication {
 	}
 }
 
+@Slf4j
 @Component
-class ReservationsFallbackProvider implements ZuulFallbackProvider {
+class ReservationsFallbackProvider implements FallbackProvider {
 
 	@Override
 	public String getRoute() {
@@ -33,6 +34,12 @@ class ReservationsFallbackProvider implements ZuulFallbackProvider {
 
 	@Override
 	public ClientHttpResponse fallbackResponse() {
+		return fallbackResponse(new RuntimeException("Unknown error"));
+	}
+
+	@Override
+	public ClientHttpResponse fallbackResponse(Throwable e) {
+		log.debug("Created fallback response for", e);
 		return new ClientHttpResponse() {
 
 			@Override
@@ -43,22 +50,22 @@ class ReservationsFallbackProvider implements ZuulFallbackProvider {
 			}
 
 			@Override
-			public InputStream getBody() throws IOException {
+			public InputStream getBody() {
 				return new ByteArrayInputStream("{\"sorry\":\"Try again later\"}".getBytes());
 			}
 
 			@Override
-			public HttpStatus getStatusCode() throws IOException {
+			public HttpStatus getStatusCode() {
 				return HttpStatus.SERVICE_UNAVAILABLE;
 			}
 
 			@Override
-			public int getRawStatusCode() throws IOException {
+			public int getRawStatusCode() {
 				return HttpStatus.SERVICE_UNAVAILABLE.value();
 			}
 
 			@Override
-			public String getStatusText() throws IOException {
+			public String getStatusText() {
 				return HttpStatus.SERVICE_UNAVAILABLE.getReasonPhrase();
 			}
 
